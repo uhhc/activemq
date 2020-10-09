@@ -188,7 +188,7 @@ todo
 
 ## Disk usage
 You can use the following variables to limit the disk usage:
-- `ACTIVEMQ_CONFIG_STOREUSAGE`: the store usage limit. Default is `100 gb`
+- `ACTIVEMQ_CONFIG_STORAGEUSAGE`: the store usage limit. Default is `100 gb`
 - `ACTIVEMQ_CONFIG_TEMPUSAGE`: the temp usage limit. Default is `50 gb`
 
 ## JMX

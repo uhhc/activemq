@@ -1,0 +1,113 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: active-mq
+  namespace: infra-system
+  labels:
+    app: active-mq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: active-mq
+  template:
+    metadata:
+      labels:
+        app: active-mq
+    spec:
+      volumes:
+      - name: activemq-log
+        persistentVolumeClaim:
+          claimName: activemq-log-pvc
+      - name: activemq-data
+        persistentVolumeClaim:
+          claimName: activemq-data-pvc
+      containers:
+      - image: uhhc/activemq:latest
+        name: active-mq
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: "/var/log/activemq"
+          name: activemq-log
+        - mountPath: "/data"
+          name: activemq-data
+        env:
+        - name: ACTIVEMQ_CONFIG_MINMEMORY
+          value: "512"
+        - name: ACTIVEMQ_CONFIG_MAXMEMORY
+          value: "1024"
+        - name: ACTIVEMQ_CONFIG_STORAGEUSAGE
+          value: "5 gb"
+        - name: ACTIVEMQ_CONFIG_TEMPUSAGE
+          value: "5 gb"
+        - name: ACTIVEMQ_ADMIN_LOGIN
+          value: "admin"
+        - name: ACTIVEMQ_ADMIN_PASSWORD
+          value: "password"
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 500m
+          limits:
+            memory: 1024Mi
+            cpu: 1000m
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: active-mq
+  namespace: infra-system
+  labels:
+    app: active-mq
+spec:
+  selector:
+    app: active-mq
+  ports:
+  - name: dashboard
+    port: 8161
+    targetPort: 8161
+    protocol: TCP
+  - name: openwire
+    port: 61616
+    targetPort: 61616
+    protocol: TCP
+  - name: amqp
+    port: 5672
+    targetPort: 5672
+    protocol: TCP
+  - name: stomp
+    port: 61613
+    targetPort: 61613
+    protocol: TCP
+  - name: mqtt
+    port: 1883
+    targetPort: 1883
+    protocol: TCP
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: activemq-log-pvc
+  namespace: infra-system
+spec:
+  storageClassName: "my-nfs-storage"
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: activemq-data-pvc
+  namespace: infra-system
+spec:
+  storageClassName: "my-nfs-storage"
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
