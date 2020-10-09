@@ -1,4 +1,5 @@
 FROM alpine:3.6
+#FROM openjdk:8-jre-alpine3.9
 MAINTAINER Sebastien LANGOUREAUX (linuxworkgroup@hotmail.com)
 
 # Application settings
@@ -10,7 +11,7 @@ ENV CONFD_PREFIX_KEY="/activemq" \
     LANG="en_US.utf8" \
     APP_HOME="/opt/activemq" \
     ACTIVEMQ_DATA="/data" \
-    APP_VERSION="5.15.2" \
+    APP_VERSION="5.16.0" \
     SCHEDULER_VOLUME="/opt/scheduler" \
     USER=activemq \
     GROUP=activemq \
