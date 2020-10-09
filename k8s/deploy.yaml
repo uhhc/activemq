@@ -33,6 +33,8 @@ spec:
         - mountPath: "/data"
           name: activemq-data
         env:
+        - name: ACTIVEMQ_CONFIG_DASHBOARDHOST
+          value: "0.0.0.0"
         - name: ACTIVEMQ_CONFIG_MINMEMORY
           value: "512"
         - name: ACTIVEMQ_CONFIG_MAXMEMORY
@@ -41,6 +43,8 @@ spec:
           value: "5 gb"
         - name: ACTIVEMQ_CONFIG_TEMPUSAGE
           value: "5 gb"
+        - name: ACTIVEMQ_CONFIG_DEFAULTACCOUNT
+          value: "false"
         - name: ACTIVEMQ_ADMIN_LOGIN
           value: "admin"
         - name: ACTIVEMQ_ADMIN_PASSWORD

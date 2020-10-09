@@ -59,6 +59,19 @@ keys = [
 ]
 EOF
 
+cat << EOF > ${CONFD_HOME}/etc/conf.d/jetty.xml.toml
+[template]
+prefix = "${CONFD_PREFIX_KEY}"
+src = "jetty.xml.tmpl"
+dest = "${APP_HOME}/conf/jetty.xml"
+mode = "0660"
+gid = $GID
+uid = $UID
+keys = [
+  "/config"
+]
+EOF
+
 cat << EOF > ${CONFD_HOME}/etc/conf.d/log4j.properties.toml
 [template]
 prefix = "${CONFD_PREFIX_KEY}"
