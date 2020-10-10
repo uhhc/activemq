@@ -63,6 +63,6 @@ EXPOSE 61613
 EXPOSE 1883
 EXPOSE 61614
 
-VOLUME ["/data", "/var/log/activemq"]
+#VOLUME ["/data", "/var/log/activemq"]
 WORKDIR ${APP_HOME}
 CMD ["/init"]
